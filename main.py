@@ -24,7 +24,6 @@ def first_push():
         return jsonify({'error': 'Repository not provided in the request.'}), 400
 
     github_url = f"https://github.com/{repository}"
-    # headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(github_url, headers=headers)
 
     if response.status_code == 200:
