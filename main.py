@@ -9,7 +9,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/fetch', methods=['POST'])
-def get_commit_count():
+def first_push():
     repository = request.json.get('repository')
     if not repository:
         return jsonify({'error': 'Repository not provided in the request.'}), 400
