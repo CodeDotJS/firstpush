@@ -52,7 +52,8 @@ def first_push():
                     "repository": github_url,
                     "date": first_commit["commit"]["author"]["date"],
                     "message": first_commit["commit"]["message"],
-                    "commit": first_commit["html_url"]
+                    "commit": first_commit["html_url"],
+                    "email": first_commit["commit"]["author"]["email"]
                     }
                 }
                 return jsonify(data)
