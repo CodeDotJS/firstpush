@@ -35,14 +35,17 @@ def first_push():
             api_url = f"https://api.github.com/repos/{repository}/commits?page={page}"
             api_response = session.get(api_url, headers=headers)
 
-            profile_url = f"https://api.github.com/users/{repository.split('/')[0]}"
-            profile_response = session.get(profile_url, headers=headers)
-
         if api_response.status_code == 200:
             commits_data = api_response.json()
+
+            first_commit = commits_data[-1]
+            username = first_commit["author"]["login"]
+
+            profile_url = f"https://api.github.com/users/{username}"
+            profile_response = session.get(profile_url, headers=headers)
             user_data = profile_response.json()
+
             if commits_data:
-                first_commit = commits_data[-1]
                 data = {
                 "user": user(user_data),
                 "commit": {
