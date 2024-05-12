@@ -73,7 +73,8 @@ def user(user_data):
         "name": user_data["name"],
         "repositories": user_data["public_repos"],
         "twitter": user_data["twitter_username"],
-        "type": user_data["type"]
+        "type": user_data["type"],
+        "joined": user_data["created_at"]
     }
 
 def normalize(total_commits):
