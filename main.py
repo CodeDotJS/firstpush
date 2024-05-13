@@ -35,8 +35,12 @@ def first_push():
             api_url = f"https://api.github.com/repos/{repository}/commits?page={page}"
             api_response = session.get(api_url, headers=headers)
 
+            repo_data = f"https://api.github.com/repos/{repository}"
+            repo_response = session.get(repo_data, headers=headers)
+
         if api_response.status_code == 200:
             commits_data = api_response.json()
+            stats = repo_response.json()
 
             first_commit = commits_data[-1]
             username = first_commit["author"]["login"]
@@ -48,7 +52,9 @@ def first_push():
             if commits_data:
                 data = {
                 "user": user(user_data),
+                "stats": repo_stats(stats),
                 "commit": {
+                    "name": repository.split('/')[1],
                     "repository": github_url,
                     "date": first_commit["commit"]["author"]["date"],
                     "message": first_commit["commit"]["message"],
@@ -79,6 +85,13 @@ def user(user_data):
         "twitter": user_data["twitter_username"],
         "type": user_data["type"],
         "joined": user_data["created_at"]
+    }
+
+def repo_stats(stats):
+    return {
+        "size": stats["size"],
+        "stars": stats["stargazers_count"],
+        "forks": stats["forks"]
     }
 
 def normalize(total_commits):
