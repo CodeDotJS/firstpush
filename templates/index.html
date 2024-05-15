@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FirstPush 🥑 🦀 Trace the Code: Back to the First Commit 🦒</title>
+    <meta name="description" content="Trace the Code: Back to the First Commit">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-title" content="FirstPush">
+    <meta name="application-name" content="FirstPush">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Trace the Code: Back to the First Commit">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FirstPush">
+    <meta property="og:url" content="https://firstpush.vercel.app">
+    <meta property="og:image" content="https://raw.githubusercontent.com/CodeDotJS/firstpush/master/static/images/banner.png">
+    <meta property="og:image:alt" content="Trace the Code: Back to the First Commit">
+    <meta property="og:description" content="Trace the Code: Back to the First Commit">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis&Averia+Libre&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="loadingBar"></div>
+    <h1>First<span><img src="{{ url_for('static', filename='images/push.svg') }}" class="logo" alt=""></span>Push<br><span id="description">Trace the Code: Back to the First Commit</span></h1>
+    <div class="container">
+        <input type="text" id="searchInput" placeholder="Search for a repository...">
+        <ul class="suggestions" id="suggestionsList"></ul>
+        <div class="card" id="userCard">
+            <div class="user-details">
+                <img src="" alt="Avatar" class="avatar" id="avatar">
+                <div class="name" id="name"></div>
+                <div class="bio" id="bio"></div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="followers"></div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="following"></div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="repositories"></div>
+                        <div class="stat-label">Repositories</div>
+                    </div>
+                </div>
+                <a href="" target="_blank" class="button" id="blogLink">BLOG</a>
+            </div>
+            <div class="repo-details">
+                <div id="repositoryInfo">
+                    <div class="commitName"></div>
+                    <div class="stats">
+                        <div class="starIcon"></div>
+                        <span class="stars"></span> &nbsp;&nbsp;
+                        <div class="forkIcon"></div>
+                        <span class="forks"></span> &nbsp;&nbsp;
+                        <div class="sizeIcon"></div>
+                        <span class="size"></span>
+                    </div>
+                </div>
+                <div class="commit-info" id="commitInfo"></div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+    window.va = window.va || function() {
+        (window.vaq = window.vaq || []).push(arguments);
+    };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+
+</html>
