@@ -1,0 +1,333 @@
+:root {
+    --bg-color: #FFF;
+    --text-color: #000;
+    --accent-color: #D439FF;
+    --card-bg: #FFF;
+    --input-bg: #FFF;
+    --input-text: #7A78C3;
+    --commit-info: aliceblue;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: "Share Tech Mono", monospace;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    padding: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo {
+    width: 50px;
+    background-color: aliceblue;
+    padding: 0px 10px;
+    border-bottom: solid 10px pink;
+}
+
+#description {
+    font-size: 13px;
+    padding: 10px;
+    border-bottom: solid 5px black;
+}
+
+#searchInput {
+    font-family: "Dosis", sans-serif;
+    width: 50%;
+    padding: 16px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#searchInput:focus {
+    outline: none;
+    background-color: var(--commit-info);
+}
+
+.suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 8px 0 0;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+.suggestions.show {
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: var(--shadow);
+}
+
+.suggestion-item {
+    text-align: center;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #e6f5dc
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 32px;
+    gap: 32px;
+    margin: 40px auto;
+    display: none;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    text-align: center;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+}
+
+.name {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    background: #ffd5f6;
+    padding: 6px 20px;
+    border-radius: 8px;
+}
+
+.bio {
+    margin: 16px 0;
+    color: rgba(var(--text-color), 0.8);
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.stat {
+    margin: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: rgba(var(--text-color), 0.6);
+}
+
+.button {
+    background: linear-gradient(to right, var(--accent-color), rgba(var(--accent-color), 0.8));
+    color: var(--text-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+}
+
+.button:hover {
+    background: linear-gradient(to right, rgba(var(--accent-color), 0.8), var(--accent-color));
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.commit-info {
+    text-align: left;
+}
+
+.commit-info a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    background: aliceblue;
+}
+
+.commit-info a:hover {
+    color: rgba(var(--accent-color), 0.8);
+}
+
+.commit-info blockquote {
+    margin: 16px 0;
+    padding: 16px;
+    background-color: rgba(var(--text-color), 0.1);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 8px;
+    color: rgba(var(--text-color), 0.8);
+    font-size: 12px;
+    background-color: var(--commit-info);
+}
+
+#loadingBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background-color: var(--accent-color);
+    display: none;
+    animation: loading 6s infinite;
+}
+
+@keyframes loading {
+    0% {
+        width: 0%;
+    }
+
+    50% {
+        width: 30%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.repository-info {
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: rgba(var(--text-color), 0.1);
+}
+
+.repo-details {
+    width: 60%;
+}
+
+#repositoryInfo {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+    padding-top: 14px;
+}
+
+.commitName {
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #ccbeff;
+    padding: 10px 30px;
+    border-radius: 8px;
+}
+
+.stats {
+    margin-top: 5px;
+}
+
+.stats div {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.stats span {
+    vertical-align: middle;
+}
+
+.starIcon,
+.forkIcon,
+.sizeIcon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.starIcon {
+    background-image: url('images/star.svg');
+}
+
+.forkIcon {
+    background-image: url('images/fork.svg');
+}
+
+.sizeIcon {
+    background-image: url('images/file-part-2.svg');
+}
+
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .container {
+        width: 400px;
+    }
+
+    .card {
+        flex-direction: column-reverse;
+    }
+
+    .user-details {
+        width: 100%;
+        border-top: solid 2px #f1cfff;
+        padding-top: 20px;
+    }
+
+    .repo-details {
+        width: 100%;
+    }
+}
