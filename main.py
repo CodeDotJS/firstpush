@@ -43,7 +43,11 @@ def first_push():
             stats = repo_response.json()
 
             first_commit = commits_data[-1]
-            username = first_commit["author"]["login"]
+
+            if "author" in first_commit and first_commit["author"] is not None and "login" in first_commit["author"]:
+                username = first_commit["author"]["login"]
+            else:
+                username = first_commit["html_url"].split('/')[3]
 
             profile_url = f"https://api.github.com/users/{username}"
             profile_response = session.get(profile_url, headers=headers)
