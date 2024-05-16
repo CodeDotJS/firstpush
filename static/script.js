@@ -80,10 +80,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 renderUserCard(userData);
             }
         }
-        searchInput.value = repositoryName;
+        searchInput.value = '';
         suggestionsList.innerHTML = '';
         suggestionsList.classList.remove('show');
     }
+
 
     function extractCommitShortCode(url) {
         return url.split('commit/')[1].slice(0, 7);
