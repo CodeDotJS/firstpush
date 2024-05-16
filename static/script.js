@@ -11,7 +11,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const suggestionsList = document.getElementById('suggestionsList');
     const userCard = document.getElementById('userCard');
     const loadingBar = document.getElementById('loadingBar');
-    let cache = {};
+    let cache = {
+        searchResults: {},
+        userData: {}
+    };
 
     searchInput.addEventListener('input', debounce(async () => {
         const query = searchInput.value.trim();
@@ -20,14 +23,14 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        if (cache[query]) {
-            renderSuggestions(cache[query]);
+        if (cache.searchResults[query]) {
+            renderSuggestions(cache.searchResults[query]);
         } else {
             try {
                 const response = await fetch(`https://api.github.com/search/repositories?q=${query}&per_page=3`);
                 const data = await response.json();
                 const items = data.items;
-                cache[query] = items;
+                cache.searchResults[query] = items;
                 renderSuggestions(items);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -65,12 +68,17 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     async function sendData(repositoryName) {
-        loadingBar.style.display = 'block';
-        const userData = await sendRepositoryToBackend(repositoryName);
-        loadingBar.style.width = '0%';
-        loadingBar.style.display = 'none';
-        if (userData) {
-            renderUserCard(userData);
+        if (cache.userData[repositoryName]) {
+            renderUserCard(cache.userData[repositoryName]);
+        } else {
+            loadingBar.style.display = 'block';
+            const userData = await sendRepositoryToBackend(repositoryName);
+            loadingBar.style.width = '0%';
+            loadingBar.style.display = 'none';
+            if (userData) {
+                cache.userData[repositoryName] = userData;
+                renderUserCard(userData);
+            }
         }
         searchInput.value = repositoryName;
         suggestionsList.innerHTML = '';
