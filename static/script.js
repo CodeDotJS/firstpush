@@ -16,6 +16,18 @@ document.addEventListener("DOMContentLoaded", function() {
         userData: {}
     };
 
+    async function fetchSuggestions(query) {
+        try {
+            const response = await fetch(`https://api.github.com/search/repositories?q=${query}&per_page=3`);
+            const data = await response.json();
+            const items = data.items;
+            cache.searchResults[query] = items;
+            renderSuggestions(items);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
     searchInput.addEventListener('input', debounce(async () => {
         const query = searchInput.value.trim();
         if (query.length === 0) {
@@ -26,27 +38,21 @@ document.addEventListener("DOMContentLoaded", function() {
         if (cache.searchResults[query]) {
             renderSuggestions(cache.searchResults[query]);
         } else {
-            try {
-                const response = await fetch(`https://api.github.com/search/repositories?q=${query}&per_page=3`);
-                const data = await response.json();
-                const items = data.items;
-                cache.searchResults[query] = items;
-                renderSuggestions(items);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
+            await fetchSuggestions(query);
         }
     }, 600));
 
     function renderSuggestions(items) {
-        suggestionsList.innerHTML = '';
+        const fragment = document.createDocumentFragment();
         items.forEach(item => {
             const li = document.createElement('li');
             li.classList.add('suggestion-item');
             li.textContent = item.full_name;
             li.dataset.repository = item.full_name;
-            suggestionsList.appendChild(li);
+            fragment.appendChild(li);
         });
+        suggestionsList.innerHTML = '';
+        suggestionsList.appendChild(fragment);
         suggestionsList.classList.add('show');
     }
 
@@ -80,14 +86,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 renderUserCard(userData);
             }
         }
-        searchInput.value = '';
+        searchInput.value = ''; // Clear the input box
         suggestionsList.innerHTML = '';
         suggestionsList.classList.remove('show');
-    }
-
-
-    function extractCommitShortCode(url) {
-        return url.split('commit/')[1].slice(0, 7);
     }
 
     async function sendRepositoryToBackend(repositoryName) {
@@ -127,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const username = userData.user.username;
 
         document.getElementById('avatar').src = userData.user.avatar;
-        document.getElementById('name').innerHTML = `<a href="https://github.com/${username}"> ${userData.user.name}</a>`;
+        document.getElementById('name').innerHTML = `<a href="https://github.com/${username}">${userData.user.name}</a>`;
         document.getElementById('bio').innerText = userData.user.bio;
         document.getElementById('followers').innerText = userData.user.followers;
         document.getElementById('following').innerText = userData.user.following;
@@ -162,12 +163,15 @@ document.addEventListener("DOMContentLoaded", function() {
         forks.textContent = userData.stats.forks;
         size.textContent = `${convertToMB(userData.stats.size)} MB`;
 
-        const { years, remainingDays } = calculateYearsAndDays(new Date(commitDate));
+        const { years, remainingDays } = calculateYearsAndDays(commitDate);
 
-        commitInfo.innerHTML += `${years} Years (${remainingDays} days) ago on ${formatDate(commitDate)},
-    <a href="https://github.com/${username}" target="_blank">@${username}</a> pushed the <a href="${commitLink}" target="_blank">first commit</a>
-    to <a href="${repoLink}" target="_blank">${repoName}</a>
-    with the commit message - <blockquote>${commitMessage}</blockquote>`;
+        commitInfo.innerHTML = `
+            ${years} Years (${remainingDays} days) ago on ${formatDate(commitDate)},
+            <a href="https://github.com/${username}" target="_blank">@${username}</a> pushed the
+            <a href="${commitLink}" target="_blank">first commit</a>
+            to <a href="${repoLink}" target="_blank">${repoName}</a>
+            with the commit message - <blockquote>${commitMessage}</blockquote>
+        `;
 
         userCard.style.display = 'flex';
     }
@@ -175,10 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const desc = document.getElementById('description');
 
     function generateRandomColor() {
-        const randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' +
-            Math.floor(Math.random() * 256) + ',' +
-            Math.floor(Math.random() * 256) + ')';
-        return randomColor;
+        return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
     }
 
     setInterval(() => {
