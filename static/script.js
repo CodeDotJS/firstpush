@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 renderUserCard(userData);
             }
         }
-        searchInput.value = ''; // Clear the input box
+        searchInput.value = '';
         suggestionsList.innerHTML = '';
         suggestionsList.classList.remove('show');
     }
